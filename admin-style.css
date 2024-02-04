@@ -1,0 +1,91 @@
+* {
+  font-family: "YekanBakh", sans-serif !important;
+}
+.menu-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item-input,
+.menu-item-textarea {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.menu-item-image {
+  max-width: 200px;
+  margin-top: 10px;
+}
+
+.buttons-container {
+  margin-top: 10px;
+  display: flex;
+  column-gap: 8px;
+  align-items: center;
+}
+.flex {
+  display: flex;
+}
+.col-gap-8 {
+  column-gap: 8px;
+}
+.items-center {
+  align-items: center;
+}
+@media screen and (max-width: 600px) {
+  .buttons-container {
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    row-gap: 8px;
+  }
+}
+
+.custom-button {
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.custom-button.red {
+  background-color: #c62828;
+}
+@font-face {
+  font-family: "Yekan";
+  src: url("./assets/fonts/yekanbakh/iranyekanwebregular\(fanum\).woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "YekanBakh";
+  src: url("./assets/fonts/yekanbakh/yekanbakhlight.woff2");
+  font-weight: 200;
+}
+@font-face {
+  font-family: "YekanBakh";
+  src: url("./assets/fonts/yekanbakh/yekanbakhreg.woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "YekanBakh";
+  src: url("./assets/fonts/yekanbakh/yekanbakhmedium.woff2");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "YekanBakh";
+  src: url("./assets/fonts/yekanbakh/yekanbakhsemibold.woff2");
+  font-weight: 600;
+}
+@font-face {
+  font-family: "YekanBakh";
+  src: url("./assets/fonts/yekanbakh/yekanbakhbold.woff2");
+  font-weight: 700;
+}
