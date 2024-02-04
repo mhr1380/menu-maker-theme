@@ -77,23 +77,31 @@ function show_menu_items_meta_box($post) {
                     <button type="button" class="custom-button upload_image_button">انتخاب تصویر</button>
                     <button type="button" class="custom-button move_up_button">انتقال به بالا</button>
                     <button type="button" class="custom-button move_down_button">انتقال به پایین</button>
-                    <button type="button" class="custom-button delete_menu_item_button">حذف</button>
+                    <button type="button" class="custom-button red delete_menu_item_button">حذف</button>
                     <select name="menu_item_category[]">
                         <option value="">انتخاب دسته بندی</option>
                         <?php
+                        $post_id = get_the_ID(); // get the current post ID
+                        $selected_terms = get_the_terms($post_id, 'menu_category'); // get the terms associated with the post
+
+                        $selected_term_ids = array();
+                        if (!empty($selected_terms) && !is_wp_error($selected_terms)) {
+                            foreach ($selected_terms as $term) {
+                                $selected_term_ids[] = $term->term_id; // store the term IDs in an array
+                            }
+                        }
+
                         $categories = get_terms(array(
                             'taxonomy' => 'menu_category',
                             'hide_empty' => false,
                         ));
 
-                        // filter the categories and just show which they have checked checkbox
-                        $selected_category = $menu_item['category'];
-
                         foreach ($categories as $category) {
-                            $selected = $category->term_id == $selected_category ? 'selected' : '';
-                            echo '<option value="' . $category->term_id . '" ' . $selected . '>' . $category->name . '</option>';
+                            if (in_array($category->term_id, $selected_term_ids)) { // check if the term is in the array of selected terms
+                                $selected = $menu_item['category'] == $category->term_id ? 'selected' : '';
+                                echo '<option value="' . $category->term_id . '" ' . $selected . '>' . $category->name . '</option>';
+                            }
                         }
-                        
                         ?>
                     </select>
                 </div>
@@ -106,7 +114,29 @@ function show_menu_items_meta_box($post) {
         document.getElementById('add_menu_item').addEventListener('click', function() {
             var menuItem = document.createElement('div');
             menuItem.className = 'menu-item';
-            menuItem.innerHTML = 'نام: <input type="text" name="menu_item_name[]" class="menu-item-input"><br>توضیحات: <textarea name="menu_item_description[]" class="menu-item-textarea"></textarea><br>قیمت: <input type="text" name="menu_item_price[]" class="menu-item-input"><br><input type="hidden" name="menu_item_image_id[]"><img src="" class="menu-item-image"><div class="buttons-container"><button type="button" class="custom-button upload_image_button">انتخاب تصویر</button><button type="button" class="custom-button move_up_button">انتقال به بالا</button><button type="button" class="custom-button move_down_button">انتقال به پایین</button><button type="button" class="custom-button red delete_menu_item_button">حذف</button><select name="menu_item_category[]"><option value="">انتخاب دسته بندی</option><?php foreach ($categories as $category) { echo '<option value="' . $category->term_id . '">' . $category->name . '</option>'; } ?></select></div>';
+            menuItem.innerHTML = 'نام: <input type="text" name="menu_item_name[]" class="menu-item-input"><br>توضیحات: <textarea name="menu_item_description[]" class="menu-item-textarea"></textarea><br>قیمت: <input type="text" name="menu_item_price[]" class="menu-item-input"><br><input type="hidden" name="menu_item_image_id[]"><img src="" class="menu-item-image"><div class="buttons-container"><button type="button" class="custom-button upload_image_button">انتخاب تصویر</button><button type="button" class="custom-button move_up_button">انتقال به بالا</button><button type="button" class="custom-button move_down_button">انتقال به پایین</button><button type="button" class="custom-button red delete_menu_item_button">حذف</button><select name="menu_item_category[]"><option value="">انتخاب دسته بندی</option><?php
+                        $post_id = get_the_ID(); // get the current post ID
+                        $selected_terms = get_the_terms($post_id, 'menu_category'); // get the terms associated with the post
+
+                        $selected_term_ids = array();
+                        if (!empty($selected_terms) && !is_wp_error($selected_terms)) {
+                            foreach ($selected_terms as $term) {
+                                $selected_term_ids[] = $term->term_id; // store the term IDs in an array
+                            }
+                        }
+
+                        $categories = get_terms(array(
+                            'taxonomy' => 'menu_category',
+                            'hide_empty' => false,
+                        ));
+
+                        foreach ($categories as $category) {
+                            if (in_array($category->term_id, $selected_term_ids)) { // check if the term is in the array of selected terms
+                                $selected = $menu_item['category'] == $category->term_id ? 'selected' : '';
+                                echo '<option value="' . $category->term_id . '" ' . $selected . '>' . $category->name . '</option>';
+                            }
+                        }
+                        ?></select></div>';
             document.getElementById('menu_items').appendChild(menuItem);
         });
 
@@ -528,3 +558,4 @@ function change_preview_link_in_list($actions, $post) {
     return $actions;
 }
 add_filter('post_row_actions', 'change_preview_link_in_list', 10, 2);
+
