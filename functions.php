@@ -559,3 +559,18 @@ function change_preview_link_in_list($actions, $post) {
 }
 add_filter('post_row_actions', 'change_preview_link_in_list', 10, 2);
 
+
+
+// i got cors policy error when i send request to rest api from my website, i want to allow all origins to access my rest api
+// i want to allow all origins to access my rest api
+function allow_all_origins() {
+    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
+    add_filter('rest_pre_serve_request', function ($value) {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET');
+        header('Access-Control-Allow-Headers: X-Requested-With');
+        header('Access-Control-Allow-Credentials: true');
+        return $value;
+    });
+}
+add_action('rest_api_init', 'allow_all_origins', 15);
